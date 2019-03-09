@@ -30,18 +30,18 @@ namespace timesheet.api
                                                     .AllowCredentials());
             });
 
-            // TODO Add Comments - Database pointed to local database
             services.AddDbContext<TimesheetDb>(options => 
                     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            // TODO Add Comments
+            // Adds MVC service
             services.AddMvc();
 
-            // TODO Add Comments
+            //  Adds a scoped service of the type specified in TService to the specified Microsoft.Extensions.DependencyInjection.IServiceCollection.
             services.AddScoped<EmployeeService>();
             services.AddScoped<ITimeSheetEntryService, TimeSheetEntryService>();
             services.AddScoped<ITaskService, TaskService>();
 
+            // Add swagger support
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
@@ -66,7 +66,8 @@ namespace timesheet.api
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
-            // TODO Add Comments
+
+            // Define dault routes
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
